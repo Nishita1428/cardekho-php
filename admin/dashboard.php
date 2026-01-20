@@ -68,6 +68,7 @@ include '../common/config.php';
         <th>Address</th>
         <th>Car Type</th>
         <th>Date</th>
+        <th>Action</th>
     </tr>
 
     <?php
@@ -84,6 +85,11 @@ include '../common/config.php';
                     <td>{$row['address']}</td>
                     <td>{$row['car_type']}</td>
                     <td>{$row['created_at']}</td>
+                    <td>
+          <a href='delete.php?id={$row['id']}'
+             onclick=\"return confirm('Are you sure you want to delete this enquiry?');\"
+             style='color:red;'>Delete</a>
+        </td>
                   </tr>";
         }
     } else {
