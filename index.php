@@ -1,46 +1,48 @@
-<?php include 'common/header.php'; ?>
+<?php
+include 'common/config.php';
+include 'common/header.php';
 
+/* Fetch latest banner */
+$bannerQuery = "SELECT * FROM banners WHERE status='active' LIMIT 1
+";
+$bannerResult = mysqli_query($conn, $bannerQuery);
+$banner = mysqli_fetch_assoc($bannerResult);
+?>
 
-
-
-
-
+<!-- ================= BANNER SECTION ================= -->
 <section class="banner">
     <div class="container banner-flex">
 
-        <div class="banner-text">
-            <h1>Find Your Perfect Car</h1>
-            <p>
-                Compare prices, explore latest models, and choose the best car
-                that suits your lifestyle.
-            </p>
-            <a href="car-form.php" class="banner-btn">Get Car Details</a>
-        </div>
+        <?php if ($banner) { ?>
+            <div class="banner-text">
+                <h1><?= htmlspecialchars($banner['title']) ?></h1>
+                <p><?= htmlspecialchars($banner['subtitle']) ?></p>
+                <a href="car-form.php" class="banner-btn">Get Car Details</a>
+            </div>
 
-        <div class="banner-image">
-            <img src="assets/images/banners/car-banner.png" alt="Car Banner">
-        </div>
+            <div class="banner-image">
+                <img src="assets/images/banners/<?= $banner['image'] ?>" alt="Banner Image">
+            </div>
+        <?php } else { ?>
+            <h2>No banner added</h2>
+        <?php } ?>
 
     </div>
 </section>
+<!-- ================= END BANNER ================= -->
 
 
-
-
-
-
+<!-- ================= MOST SEARCHED CARS ================= -->
 <section class="most-searched">
     <div class="container">
         <h2 class="section-title">Most Searched Cars</h2>
 
         <div class="car-grid">
-
             <div class="car-card">
                 <img src="assets/images/cars/car1.png" alt="SUV Car">
                 <h3>Hyundai Creta</h3>
                 <p>SUV</p>
             </div>
-
 
             <div class="car-card">
                 <img src="assets/images/cars/car2.png" alt="Sedan Car">
@@ -48,13 +50,11 @@
                 <p>Sedan</p>
             </div>
 
-
             <div class="car-card">
                 <img src="assets/images/cars/car3.png" alt="Hatchback Car">
                 <h3>Maruti Swift</h3>
                 <p>Hatchback</p>
             </div>
-
 
             <div class="car-card">
                 <img src="assets/images/cars/car4.png" alt="SUV Car">
@@ -64,20 +64,14 @@
         </div>
     </div>
 </section>
+<!-- ================= END MOST SEARCHED ================= -->
 
 
-
-
-
-
-
-
-
+<!-- ================= LATEST CARS ================= -->
 <section class="latest-cars">
     <div class="container">
         <h2 class="section-title">Latest Cars</h2>
         <p class="section-subtitle">Check out the newest car launches in India</p>
-
 
         <div class="latest-card">
             <img src="assets/images/cars/latest1.png" alt="Latest Car">
@@ -88,7 +82,6 @@
             </div>
         </div>
 
-
         <div class="latest-card">
             <img src="assets/images/cars/latest2.png" alt="Latest Car">
             <div class="latest-info">
@@ -98,7 +91,6 @@
             </div>
         </div>
 
-
         <div class="latest-card">
             <img src="assets/images/cars/latest3.png" alt="Latest Car">
             <div class="latest-info">
@@ -107,11 +99,8 @@
                 <span>Launch Year: 2025</span>
             </div>
         </div>
-
     </div>
 </section>
-
-
-
+<!-- ================= END LATEST CARS ================= -->
 
 <?php include 'common/footer.php'; ?>

@@ -4,8 +4,6 @@ session_start();
 
 
 
-
-
 include '../common/config.php';
 
 $error = "";

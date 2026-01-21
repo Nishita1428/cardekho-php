@@ -52,11 +52,19 @@ include '../common/config.php';
  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
     <h2>Car Enquiries</h2>
 
-    <a href="logout.php" 
-       style="background:#ff3b3f; color:#fff; padding:8px 15px; text-decoration:none; border-radius:4px;">
-       Logout
-    </a>
+    <div>
+        <a href="manage-banner.php"
+           style="background:#000; color:#fff; padding:8px 15px; text-decoration:none; border-radius:4px; margin-right:10px;">
+           Manage Banner
+        </a>
+
+        <a href="logout.php"
+           style="background:#ff3b3f; color:#fff; padding:8px 15px; text-decoration:none; border-radius:4px;">
+           Logout
+        </a>
+    </div>
 </div>
+
 
 
 <table>
@@ -69,33 +77,55 @@ include '../common/config.php';
         <th>Car Type</th>
         <th>Date</th>
         <th>Action</th>
+        <th>Status</th>
     </tr>
 
     <?php
     $sql = "SELECT * FROM car_enquiry ORDER BY id DESC";
     $result = mysqli_query($conn, $sql);
 
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-            echo "<tr>
-                    <td>{$row['id']}</td>
-                    <td>{$row['name']}</td>
-                    <td>{$row['phone']}</td>
-                    <td>{$row['email']}</td>
-                    <td>{$row['address']}</td>
-                    <td>{$row['car_type']}</td>
-                    <td>{$row['created_at']}</td>
-                    <td>
-          <a href='delete.php?id={$row['id']}'
-             onclick=\"return confirm('Are you sure you want to delete this enquiry?');\"
-             style='color:red;'>Delete</a>
-        </td>
-                  </tr>";
-        }
-    } else {
-        echo "<tr><td colspan='7'>No enquiries found</td></tr>";
+    
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+?>
+<tr>
+    <td><?= $row['id'] ?></td>
+    <td><?= $row['name'] ?></td>
+    <td><?= $row['phone'] ?></td>
+    <td><?= $row['email'] ?></td>
+    <td><?= $row['address'] ?></td>
+    <td><?= $row['car_type'] ?></td>
+    <td><?= $row['created_at'] ?></td>
+
+    <td>
+        <form action="update.php" method="POST">
+            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+
+            <select name="status">
+                <option value="Pending" <?= $row['status']=='Pending'?'selected':'' ?>>Pending</option>
+                <option value="Approved" <?= $row['status']=='Approved'?'selected':'' ?>>Approved</option>
+                <option value="Rejected" <?= $row['status']=='Rejected'?'selected':'' ?>>Rejected</option>
+            </select>
+
+            <button type="submit">Update</button>
+        </form>
+    </td>
+
+    <td>
+        <a href="delete.php?id=<?= $row['id'] ?>"
+           onclick="return confirm('Are you sure you want to delete this enquiry?')"
+           style="color:red;">
+           Delete
+        </a>
+    </td>
+</tr>
+<?php
     }
-    ?>
+} else {
+    echo "<tr><td colspan='9'>No enquiries found</td></tr>";
+}
+?>
+
 
 </table>
 
