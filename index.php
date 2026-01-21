@@ -2,14 +2,23 @@
 include 'common/config.php';
 include 'common/header.php';
 
-/* Fetch latest banner */
-$bannerQuery = "SELECT * FROM banners WHERE status='active' LIMIT 1
-";
+
+$bannerQuery = "SELECT * FROM banners WHERE status='active' LIMIT 1";
 $bannerResult = mysqli_query($conn, $bannerQuery);
 $banner = mysqli_fetch_assoc($bannerResult);
+
+
+
+$mostSearchedQuery = "SELECT * FROM most_searched_cars WHERE status='active' ORDER BY id DESC";
+$mostSearchedResult = mysqli_query($conn, $mostSearchedQuery);
+
+
+
+$latestCarsQuery = "SELECT * FROM latest_cars WHERE status='active' ORDER BY id DESC";
+$latestCarsResult = mysqli_query($conn, $latestCarsQuery);
 ?>
 
-<!-- ================= BANNER SECTION ================= -->
+
 <section class="banner">
     <div class="container banner-flex">
 
@@ -29,78 +38,49 @@ $banner = mysqli_fetch_assoc($bannerResult);
 
     </div>
 </section>
-<!-- ================= END BANNER ================= -->
 
 
-<!-- ================= MOST SEARCHED CARS ================= -->
 <section class="most-searched">
     <div class="container">
         <h2 class="section-title">Most Searched Cars</h2>
 
         <div class="car-grid">
-            <div class="car-card">
-                <img src="assets/images/cars/car1.png" alt="SUV Car">
-                <h3>Hyundai Creta</h3>
-                <p>SUV</p>
-            </div>
-
-            <div class="car-card">
-                <img src="assets/images/cars/car2.png" alt="Sedan Car">
-                <h3>Honda City</h3>
-                <p>Sedan</p>
-            </div>
-
-            <div class="car-card">
-                <img src="assets/images/cars/car3.png" alt="Hatchback Car">
-                <h3>Maruti Swift</h3>
-                <p>Hatchback</p>
-            </div>
-
-            <div class="car-card">
-                <img src="assets/images/cars/car4.png" alt="SUV Car">
-                <h3>Kia Seltos</h3>
-                <p>SUV</p>
-            </div>
+            <?php if (mysqli_num_rows($mostSearchedResult) > 0) { ?>
+                <?php while ($car = mysqli_fetch_assoc($mostSearchedResult)) { ?>
+                    <div class="car-card">
+                        <img src="assets/images/cars/<?= $car['image'] ?>" alt="<?= htmlspecialchars($car['car_name']) ?>">
+                        <h3><?= htmlspecialchars($car['car_name']) ?></h3>
+                        <p><?= htmlspecialchars($car['car_type']) ?></p>
+                    </div>
+                <?php } ?>
+            <?php } else { ?>
+                <p>No cars available</p>
+            <?php } ?>
         </div>
     </div>
 </section>
-<!-- ================= END MOST SEARCHED ================= -->
 
 
-<!-- ================= LATEST CARS ================= -->
 <section class="latest-cars">
     <div class="container">
         <h2 class="section-title">Latest Cars</h2>
         <p class="section-subtitle">Check out the newest car launches in India</p>
 
-        <div class="latest-card">
-            <img src="assets/images/cars/latest1.png" alt="Latest Car">
-            <div class="latest-info">
-                <h3>Tata Curvv</h3>
-                <p>Expected Price: ₹12 - 18 Lakh</p>
-                <span>Launch Year: 2024</span>
-            </div>
-        </div>
-
-        <div class="latest-card">
-            <img src="assets/images/cars/latest2.png" alt="Latest Car">
-            <div class="latest-info">
-                <h3>Hyundai Verna Facelift</h3>
-                <p>Expected Price: ₹11 - 17 Lakh</p>
-                <span>Launch Year: 2024</span>
-            </div>
-        </div>
-
-        <div class="latest-card">
-            <img src="assets/images/cars/latest3.png" alt="Latest Car">
-            <div class="latest-info">
-                <h3>Maruti Swift 2025</h3>
-                <p>Expected Price: ₹6 - 9 Lakh</p>
-                <span>Launch Year: 2025</span>
-            </div>
-        </div>
+        <?php if (mysqli_num_rows($latestCarsResult) > 0) { ?>
+            <?php while ($car = mysqli_fetch_assoc($latestCarsResult)) { ?>
+                <div class="latest-card">
+                    <img src="assets/images/cars/<?= $car['image'] ?>" alt="<?= htmlspecialchars($car['car_name']) ?>">
+                    <div class="latest-info">
+                        <h3><?= htmlspecialchars($car['car_name']) ?></h3>
+                        <p>Expected Price: <?= htmlspecialchars($car['price']) ?></p>
+                        <span>Launch Year: <?= htmlspecialchars($car['launch_year']) ?></span>
+                    </div>
+                </div>
+            <?php } ?>
+        <?php } else { ?>
+            <p>No latest cars available</p>
+        <?php } ?>
     </div>
 </section>
-<!-- ================= END LATEST CARS ================= -->
 
 <?php include 'common/footer.php'; ?>

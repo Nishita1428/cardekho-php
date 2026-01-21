@@ -48,3 +48,38 @@
 
 
 -- ALTER TABLE banners ADD status ENUM('active','inactive') DEFAULT 'inactive';
+
+
+-- header setting
+
+-- CREATE TABLE header_settings (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     logo_text VARCHAR(100),
+--     logo_image VARCHAR(255),
+--     menu_new_cars VARCHAR(50),
+--     menu_used_cars VARCHAR(50),
+--     menu_enquiry VARCHAR(50),
+--     search_placeholder VARCHAR(100),
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+
+-- CREATE TABLE most_searched_cars (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     car_name VARCHAR(100),
+--     car_type VARCHAR(50),
+--     image VARCHAR(255),
+--     status ENUM('active','inactive') DEFAULT 'active',
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
+
+-- CREATE TABLE latest_cars (
+--     id INT AUTO_INCREMENT PRIMARY KEY,
+--     car_name VARCHAR(100),
+--     price VARCHAR(50),
+--     launch_year VARCHAR(10),
+--     image VARCHAR(255),
+--     status ENUM('active','inactive') DEFAULT 'active',
+--     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
